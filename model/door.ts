@@ -1,12 +1,11 @@
-export default class Door {
+export default class DoorModel {
 
-    #
-    number;#
-    hasPrize;#
-    selected;#
-    open;
+    #number: number;
+    #hasPrize: boolean;
+    #selected: boolean;
+    #open:boolean;
 
-    constructor(number, hasPrize = false, selected = false, open = false) {
+    constructor(number: number, hasPrize = false, selected = false, open = false) {
         this.#number = number;
         this.#hasPrize = hasPrize;
         this.#selected = selected;
@@ -29,17 +28,16 @@ export default class Door {
 
     unselect() {
         const selected = false;
-        return new Door(this.number, this.hasPrize, selected, this.open);
+        return new DoorModel(this.number, this.hasPrize, selected, this.open);
     }
 
     toggleSelected() {
         const selected = !this.selected;
-        return new Door(this.number, this.hasPrize, selected, this.open);
+        return new DoorModel(this.number, this.hasPrize, selected, this.open);
     }
 
     openDoor() {
         const open = true;
-        return new Door(this.number, this.hasPrize, this.selected, open);
+        return new DoorModel(this.number, this.hasPrize, this.selected, open);
     }
-
 }
