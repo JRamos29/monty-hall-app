@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { createDoors, updateDoors } from '../functions/doors';
 
 export default function Home() {
-	const [doors, setDoors] = useState(createDoors(3, 2));
+	const [doors, setDoors] = useState(createDoors(4, 3));
 
 	console.log(createDoors(3, 2));
 
