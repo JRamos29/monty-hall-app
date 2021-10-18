@@ -5,7 +5,7 @@ import { createDoors, updateDoors } from '../../../functions/doors';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-export default function game() {
+export default function Game() {
 	const router = useRouter();
 	const [doors, setDoors] = useState([]);
 	const [valid, setValid] = useState(false);
@@ -18,7 +18,7 @@ export default function game() {
 		const validHasPrize = hasPrize >= 1 && hasPrize <= doorsQuantity;
 
 		setValid(validDoorsQuantity && validHasPrize);
-	}, [doors]);
+	}, [doors, router.query.doors, router.query.hasPrize]);
 
 	useEffect(() => {
 		const doorsQuantity = +router.query.doors;
@@ -46,7 +46,7 @@ export default function game() {
 				{valid ? renderDoors() : <h2>Invalid Values!</h2>}
 			</div>
 			<div className={styles.buttons}>
-				<Link href="/">
+				<Link href="/" passHref>
 					<button>Restart</button>
 				</Link>
 			</div>
