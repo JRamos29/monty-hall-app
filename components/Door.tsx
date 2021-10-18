@@ -2,20 +2,33 @@ import styles from '../styles/Door.module.css';
 import DoorModel from '../model/door';
 
 interface DoorProps {
-	door: DoorModel;
+	value: DoorModel;
+	onChange: (newDoor: DoorModel) => void;
 }
 
 export default function Door(props: DoorProps) {
-	const { door } = props;
-	const selected = door.selected ? styles.selected : '';
+	const door = props.value;
+	const selected = door.selected && !door.open ? styles.selected : '';
+
+	const toggleSelected = (e) => props.onChange(door.toggleSelected());
+	const openDoor = (e) => {
+		e.stopPropagation();
+		props.onChange(door.openDoor());
+	};
+
+	function renderDoor() {
+		return (
+			<div className={styles.door}>
+				<div className={styles.number}>{door.number}</div>
+				<div className={styles.knob} onClick={openDoor}></div>
+			</div>
+		);
+	}
 
 	return (
-		<div className={styles.area}>
+		<div className={styles.area} onClick={toggleSelected}>
 			<div className={`${styles.frame} ${selected}`}>
-				<div className={styles.door}>
-					<div className={styles.number}>{door.number}</div>
-					<div className={styles.knob}></div>
-				</div>
+				{door.open ? false : renderDoor()}
 			</div>
 			<div className={styles.floor}></div>
 		</div>
