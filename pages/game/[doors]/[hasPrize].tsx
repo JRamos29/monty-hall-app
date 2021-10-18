@@ -1,19 +1,29 @@
 import styles from '../../../styles/Game.module.css';
 import Door from '../../../components/Door';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { createDoors, updateDoors } from '../../../functions/doors';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 
 export default function game() {
 	const router = useRouter();
 	const [doors, setDoors] = useState([]);
+	const [valid, setValid] = useState(false);
 
 	useEffect(() => {
-		const doorsAmount = +router.query.doors;
+		const doorsQuantity = +router.query.doors;
 		const hasPrize = +router.query.hasPrize;
-		setDoors(createDoors(doorsAmount, hasPrize));
+
+		const validDoorsQuantity = doorsQuantity >= 3 && doorsQuantity <= 100;
+		const validHasPrize = hasPrize >= 1 && hasPrize <= doorsQuantity;
+
+		setValid(validDoorsQuantity && validHasPrize);
+	}, [doors]);
+
+	useEffect(() => {
+		const doorsQuantity = +router.query.doors;
+		const hasPrize = +router.query.hasPrize;
+		setDoors(createDoors(doorsQuantity, hasPrize));
 	}, [router?.query]);
 
 	function renderDoors() {
@@ -32,7 +42,9 @@ export default function game() {
 
 	return (
 		<div id={styles.game}>
-			<div className={styles.doors}>{renderDoors()}</div>
+			<div className={styles.doors}>
+				{valid ? renderDoors() : <h2>Invalid Values!</h2>}
+			</div>
 			<div className={styles.buttons}>
 				<Link href="/">
 					<button>Restart</button>
